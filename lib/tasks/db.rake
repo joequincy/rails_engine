@@ -1,6 +1,6 @@
 namespace :db do
-  desc "Reload Seeds"
-  task reseed: [:environment, 'db:drop', 'db:create', 'db:migrate'] do
+  desc "Import CSV seed data into the database"
+  task import: [:environment] do
     require 'csv'
 
     seed_path = 'db/seeds/'
@@ -19,5 +19,10 @@ namespace :db do
       end
       puts "Added #{model.count} #{model} row(s)."
     end
+  end
+
+  desc "Reset database and re-import seed data"
+  task reseed: [:environment, 'db:drop', 'db:create', 'db:migrate', 'db:import'] do
+    puts "Reset and reseed complete."
   end
 end

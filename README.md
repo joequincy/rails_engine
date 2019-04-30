@@ -1,24 +1,11 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+-- Description to be added later --
 
-Things you may want to cover:
+### Setup
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+This project was built with Ruby 2.4.1, Rails 5.1.7, and Postgresql 11.2
+To get started, run:
+`$> bundle install`
+`$> rake db:{create,migrate,import}`
+(to reset seeds, run `$> rake db:reseed`)

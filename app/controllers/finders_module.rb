@@ -12,6 +12,9 @@ module FindersModule
   private
 
   def model
+    # This will execute in a FindersController namespaced under the plural
+    # form of the current model. Uses inflectors to get the constant
+    # referring to that model.
     @model ||= self.class
                    .name
                    .deconstantize

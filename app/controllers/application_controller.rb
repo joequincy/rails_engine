@@ -7,4 +7,8 @@ class ApplicationController < ActionController::API
                    .singularize
                    .constantize
   end
+
+  def serializer
+    @serializer ||= "#{model.to_s}Serializer".constantize
+  end
 end

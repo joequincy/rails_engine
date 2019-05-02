@@ -12,6 +12,15 @@ describe 'Merchants API Relationship Endpoints' do
 
     @m1_items = create_list(:item, 1, merchant: @m1)
     @m2_items = create_list(:item, 3, merchant: @m2)
+
+    @timestamp_columns = ['created_at', 'updated_at']
+  end
+
+  def attributes(obj)
+    case obj.class.name
+    when "Array" then obj.first['attributes'].keys.sort
+    when "Class" then obj.column_names.sort - @timestamp_columns
+    end
   end
 
   it 'returns a collection of invoices for a single merchant' do
@@ -21,6 +30,9 @@ describe 'Merchants API Relationship Endpoints' do
 
     expect(response).to be_successful
     expect(results.count).to eq(4)
+
+    expect(attributes(results)).to eq(attributes(Invoice))
+    expect(results.last['attributes']['id']).to eq(@m1_invoices.last.id)
 
     test_invoice = Invoice.find(results.first['attributes']['id'])
     expect(test_invoice).to eq(@m1_invoices.first)
@@ -33,6 +45,9 @@ describe 'Merchants API Relationship Endpoints' do
 
     expect(response).to be_successful
     expect(results.count).to eq(3)
+
+    expect(attributes(results)).to eq(attributes(Item))
+    expect(results.last['attributes']['id']).to eq(@m2_items.last.id)
 
     test_item = Item.find(results.first['attributes']['id'])
     expect(test_item).to eq(@m2_items.first)

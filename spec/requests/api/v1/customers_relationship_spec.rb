@@ -15,6 +15,8 @@ describe 'Customers API Relationship Endpoints' do
     @i5t_success = create(:transaction, invoice: @i5)
     @i5t_failure = create(:transaction, invoice: @i5, result: :failed)
     @i6t_success = create(:transaction, invoice: @i6)
+
+    @timestamp_columns = ['created_at', 'updated_at']
   end
 
   it 'returns a collection of invoices for a single customer' do
@@ -24,7 +26,11 @@ describe 'Customers API Relationship Endpoints' do
 
     expect(response).to be_successful
     expect(results.count).to eq(4)
-    expect(results.first['attributes']['customer_id']).to eq(@c1.id)
+    expect(results.first['attributes'].keys).to eq(Invoice.column_names - @timestamp_columns)
+    expect(results.last['attributes']['id']).to eq(@i4.id)
+
+    test_invoice = Invoice.find(results.first['attributes']['id'])
+    expect(test_invoice.customer).to eq(@c1)
   end
 
   it 'returns a collection of transactions for a single customer' do
@@ -34,7 +40,9 @@ describe 'Customers API Relationship Endpoints' do
 
     expect(response).to be_successful
     expect(results.count).to eq(3)
-    
+    expect(results.first['attributes'].keys).to eq(Transaction.column_names - @timestamp_columns
+    expect(results.last['attributes']['id']).to eq(@i6t_success.id)
+
     test_transaction = Transaction.find(results.first['attributes']['id'])
     expect(test_transaction.customer).to eq(@c2)
   end

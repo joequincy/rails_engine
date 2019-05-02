@@ -19,6 +19,22 @@ module ChildResourceModule
                           .constantize
   end
 
+  def build_joins
+    reflections = {}
+    model.reflect_on_all_associations.each do |reflection|
+      case reflection.class.name.demodulize
+      when "BelongsToReflection"
+        reflections[name(reflection)] = reflection.name
+      when "HasManyReflection"
+        reflections[name(reflection)] = reflection.name
+      when "ThroughReflection"
+        delegate = reflection.delegate_reflection
+        reflections[name(delegate)] = {delegate.options[:through] => reflection.source_reflection_name}
+      end
+    end
+    reflections[parent_model]
+  end
+
   def name(reflection)
     reflection.name.to_s.classify.constantize
   end

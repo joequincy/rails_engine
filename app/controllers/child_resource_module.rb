@@ -9,4 +9,13 @@ module ChildResourceModule
                    .singularize
                    .constantize
   end
+
+  def parent_model
+    @parent_model ||= self.class
+                          .name
+                          .deconstantize
+                          .demodulize
+                          .singularize
+                          .constantize
+  end
 end

@@ -19,8 +19,18 @@ Rails.application.routes.draw do
           resources :items, :invoices, :customers_with_pending_invoices, only: [:index]
         end
       end
+
+      # -------------------- #
+      #      Customers       #
+      # -------------------- #
+      namespace :customers do
+        concerns :findable
       end
-      resources :merchants, only: [:index, :show]
+      resources :customers, only: [:index, :show] do
+        scope module: :customers do
+          resources :invoices, :transactions, only: [:index]
+        end
+      end
     end
   end
 end

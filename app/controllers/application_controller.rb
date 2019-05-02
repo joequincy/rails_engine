@@ -1,4 +1,14 @@
 class ApplicationController < ActionController::API
+  def index
+    render json: serializer.new(model.all.load)
+  end
+
+  def show
+    render json: serializer.new(model.find(params[:id]))
+  end
+
+  private
+
   def model
     @model ||= self.class
                    .name

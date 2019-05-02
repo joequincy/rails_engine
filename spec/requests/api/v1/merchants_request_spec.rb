@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Merchants API' do
+describe 'Merchants API Record Endpoints' do
   it 'sends a list of merchants' do
     create_list(:merchant, 3)
     get api_v1_merchants_path

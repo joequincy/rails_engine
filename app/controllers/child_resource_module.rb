@@ -1,6 +1,12 @@
 module ChildResourceModule
   private
 
+  def query
+    model.joins(build_joins)
+         .select("#{model.name.underscore.pluralize}.*")
+         .where("#{parent_model.name.underscore.pluralize}.id" => params[parent_model.name.foreign_key])
+  end
+
   def model
     @model ||= self.class
                    .name

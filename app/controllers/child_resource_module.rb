@@ -1,4 +1,12 @@
 module ChildResourceModule
+  def index
+    render json: serializer.new(query)
+  end
+
+  def show
+    render json: serializer.new(query.first)
+  end
+
   private
 
   def query

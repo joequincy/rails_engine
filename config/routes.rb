@@ -41,6 +41,17 @@ Rails.application.routes.draw do
       resources :items, only: [:index, :show] do
         scope module: :items do
           resources :invoice_items, only: [:index]
+
+      # -------------------- #
+      #     Transactions     #
+      # -------------------- #
+      namespace :transactions do
+        concerns :findable
+      end
+      resources :transactions, only: [:index, :show] do
+        scope module: :transactions do
+        end
+      end
         end
       end
     end

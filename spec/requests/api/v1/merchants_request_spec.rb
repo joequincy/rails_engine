@@ -47,4 +47,33 @@ describe 'Merchants API' do
     expect(response).to be_successful
     expect(merchant['name']).to eq(merchants[0].name)
   end
+
+  it 'can find multiple merchants by their attributes' do
+    merchants = create_list(:merchant, 3, name: 'SameName')
+    get api_v1_merchants_find_all_path(id: merchants[0].id)
+    merchant_list = JSON.parse(response.body)['data']
+
+    expect(response).to be_successful
+    expect(merchant_list.count).to eq(1)
+    expect(merchant_list.first['attributes']['name']).to eq(merchants[0].name)
+
+    get api_v1_merchants_find_all_path(name: merchants[1].name)
+    merchant_list = JSON.parse(response.body)['data']
+
+    expect(response).to be_successful
+    expect(merchant_list.count).to eq(3)
+    expect(merchant_list.first['attributes']['name']).to eq(merchants[1].name)
+
+    get api_v1_merchants_find_all_path(created_at: merchants[2].created_at)
+    merchant_list = JSON.parse(response.body)['data']
+
+    expect(response).to be_successful
+    expect(merchant_list.first['attributes']['name']).to eq(merchants[2].name)
+
+    get api_v1_merchants_find_all_path(updated_at: merchants[0].updated_at)
+    merchant_list = JSON.parse(response.body)['data']
+
+    expect(response).to be_successful
+    expect(merchant_list.first['attributes']['name']).to eq(merchants[0].name)
+  end
 end

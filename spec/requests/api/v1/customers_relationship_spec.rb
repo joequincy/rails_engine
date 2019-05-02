@@ -19,6 +19,13 @@ describe 'Customers API Relationship Endpoints' do
     @timestamp_columns = ['created_at', 'updated_at']
   end
 
+  def attributes(obj)
+    case obj.class.name
+    when "Array" then obj.first['attributes'].keys.sort
+    when "Class" then obj.column_names.sort - @timestamp_columns
+    end
+  end
+
   it 'returns a collection of invoices for a single customer' do
     get api_v1_customer_invoices_path(@c1.id)
 
@@ -26,7 +33,7 @@ describe 'Customers API Relationship Endpoints' do
 
     expect(response).to be_successful
     expect(results.count).to eq(4)
-    expect(results.first['attributes'].keys).to eq(Invoice.column_names - @timestamp_columns)
+    expect(attributes(results)).to eq(attributes(Invoice))
     expect(results.last['attributes']['id']).to eq(@i4.id)
 
     test_invoice = Invoice.find(results.first['attributes']['id'])
@@ -40,7 +47,7 @@ describe 'Customers API Relationship Endpoints' do
 
     expect(response).to be_successful
     expect(results.count).to eq(3)
-    expect(results.first['attributes'].keys).to eq(Transaction.column_names - @timestamp_columns
+    expect(attributes(results)).to eq(attributes(Transaction) - ['credit_card_expiration_date'])
     expect(results.last['attributes']['id']).to eq(@i6t_success.id)
 
     test_transaction = Transaction.find(results.first['attributes']['id'])

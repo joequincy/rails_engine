@@ -50,6 +50,16 @@ Rails.application.routes.draw do
       end
       resources :transactions, only: [:index, :show] do
         scope module: :transactions do
+
+      # -------------------- #
+      #       Invoices       #
+      # -------------------- #
+      namespace :invoices do
+        concerns :findable
+      end
+      resources :invoices, only: [:index, :show] do
+        scope module: :invoices do
+          resources :transactions, :items, :invoice_items, only: [:index]
         end
       end
         end

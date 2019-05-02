@@ -34,6 +34,18 @@ describe 'Items API Record Endpoints' do
 
     expect(response).to be_successful
     expect(item['name']).to eq(items[1].name)
+
+    get api_v1_items_find_path(created_at: items[2].created_at)
+    item = JSON.parse(response.body)['data']['attributes']
+
+    expect(response).to be_successful
+    expect(item['name']).to eq(items[2].name)
+
+    get api_v1_items_find_path(updated_at: items[0].updated_at)
+    item = JSON.parse(response.body)['data']['attributes']
+
+    expect(response).to be_successful
+    expect(item['name']).to eq(items[0].name)
   end
 
   it 'can find multiple items by their attributes' do
@@ -51,5 +63,17 @@ describe 'Items API Record Endpoints' do
     expect(response).to be_successful
     expect(item_list.count).to eq(3)
     expect(item_list.first['attributes']['name']).to eq(items[1].name)
+
+    get api_v1_items_find_all_path(created_at: items[2].created_at)
+    item_list = JSON.parse(response.body)['data']
+
+    expect(response).to be_successful
+    expect(item_list.first['attributes']['name']).to eq(items[2].name)
+
+    get api_v1_items_find_all_path(updated_at: items[0].updated_at)
+    item_list = JSON.parse(response.body)['data']
+
+    expect(response).to be_successful
+    expect(item_list.first['attributes']['name']).to eq(items[0].name)
   end
 end

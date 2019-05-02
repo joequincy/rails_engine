@@ -23,25 +23,25 @@ describe 'Merchants API' do
 
   it 'can find one merchant by its attributes' do
     merchants = create_list(:merchant, 3)
-    get api_v1_merchants_find_path(merchant: {id: merchants[0].id})
+    get api_v1_merchants_find_path(id: merchants[0].id)
     merchant = JSON.parse(response.body)['data']['attributes']
 
     expect(response).to be_successful
     expect(merchant['name']).to eq(merchants[0].name)
 
-    get api_v1_merchants_find_path(merchant: {name: merchants[1].name})
+    get api_v1_merchants_find_path(name: merchants[1].name)
     merchant = JSON.parse(response.body)['data']['attributes']
 
     expect(response).to be_successful
     expect(merchant['name']).to eq(merchants[1].name)
 
-    get api_v1_merchants_find_path(merchant: {created_at: merchants[2].created_at})
+    get api_v1_merchants_find_path(created_at: merchants[2].created_at)
     merchant = JSON.parse(response.body)['data']['attributes']
 
     expect(response).to be_successful
     expect(merchant['name']).to eq(merchants[2].name)
 
-    get api_v1_merchants_find_path(merchant: {updated_at: merchants[0].updated_at})
+    get api_v1_merchants_find_path(updated_at: merchants[0].updated_at)
     merchant = JSON.parse(response.body)['data']['attributes']
 
     expect(response).to be_successful

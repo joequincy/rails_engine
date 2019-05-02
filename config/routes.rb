@@ -41,6 +41,9 @@ Rails.application.routes.draw do
       resources :items, only: [:index, :show] do
         scope module: :items do
           resources :invoice_items, only: [:index]
+          get :merchant, action: :show, controller: :merchants
+        end
+      end
 
       # -------------------- #
       #     Transactions     #
@@ -50,6 +53,9 @@ Rails.application.routes.draw do
       end
       resources :transactions, only: [:index, :show] do
         scope module: :transactions do
+          get :invoice, action: :show, controller: :invoices
+        end
+      end
 
       # -------------------- #
       #       Invoices       #
@@ -60,6 +66,8 @@ Rails.application.routes.draw do
       resources :invoices, only: [:index, :show] do
         scope module: :invoices do
           resources :transactions, :items, :invoice_items, only: [:index]
+          get :merchant, action: :show, controller: :merchants
+          get :customer, action: :show, controller: :customers
         end
       end
 
@@ -71,6 +79,8 @@ Rails.application.routes.draw do
       end
       resources :invoice_items, only: [:index, :show] do
         scope module: :invoice_items do
+          get :item, action: :show, controller: :items
+          get :invoice, action: :show, controller: :invoices
         end
       end
     end

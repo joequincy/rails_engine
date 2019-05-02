@@ -18,4 +18,8 @@ module ChildResourceModule
                           .singularize
                           .constantize
   end
+
+  def name(reflection)
+    reflection.name.to_s.classify.constantize
+  end
 end

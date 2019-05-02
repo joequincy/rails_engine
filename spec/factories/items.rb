@@ -3,6 +3,6 @@ FactoryBot.define do
     sequence(:name) {|n| "Item #{n}" }
     description { "Item Description" }
     unit_price { 1 }
-    merchant { nil }
+    merchant { create(:merchant) }
   end
 end

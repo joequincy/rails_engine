@@ -9,6 +9,10 @@ class ApplicationController < ActionController::API
 
   private
 
+  def universal_params
+    [:id, :created_at, :updated_at]
+  end
+
   def model
     @model ||= self.class
                    .name

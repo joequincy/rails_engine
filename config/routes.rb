@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       # -------------------- #
       namespace :merchants do
         concerns :findable
+        get :random, action: :show, controller: :random
       end
       resources :merchants, only: [:index, :show] do
         scope module: :merchants do
@@ -25,6 +26,7 @@ Rails.application.routes.draw do
       # -------------------- #
       namespace :customers do
         concerns :findable
+        get :random, action: :show, controller: :random
       end
       resources :customers, only: [:index, :show] do
         scope module: :customers do
@@ -38,6 +40,7 @@ Rails.application.routes.draw do
       # -------------------- #
       namespace :items do
         concerns :findable
+        get :random, action: :show, controller: :random
       end
       resources :items, only: [:index, :show] do
         scope module: :items do
@@ -51,6 +54,7 @@ Rails.application.routes.draw do
       # -------------------- #
       namespace :transactions do
         concerns :findable
+        get :random, action: :show, controller: :random
       end
       resources :transactions, only: [:index, :show] do
         scope module: :transactions do
@@ -63,6 +67,7 @@ Rails.application.routes.draw do
       # -------------------- #
       namespace :invoices do
         concerns :findable
+        get :random, action: :show, controller: :random
       end
       resources :invoices, only: [:index, :show] do
         scope module: :invoices do
@@ -77,6 +82,7 @@ Rails.application.routes.draw do
       # -------------------- #
       namespace :invoice_items do
         concerns :findable
+        get :random, action: :show, controller: :random
       end
       resources :invoice_items, only: [:index, :show] do
         scope module: :invoice_items do

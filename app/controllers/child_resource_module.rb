@@ -18,6 +18,7 @@ module ChildResourceModule
     model.joins(build_joins)
          .where("#{parent_model.name.underscore.pluralize}.id":
                    params[parent_model.name.foreign_key])
+         .order(:id)
   end
 
   def parent_model

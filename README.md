@@ -9,9 +9,9 @@ I have added thorough comments to the base ApplicationController and its folder 
 ### Setup
 
 This project was built with Ruby 2.4.1, Rails 5.1.7, and Postgresql 11.2
-To get started, run:
-`$> bundle install`
+To get started, run:  
+`$> bundle install`  
 `$> rake db:{create,migrate,import}`
 
-To reset the database and seeds, run
+To reset the database and seeds, run  
 `$> rake db:reseed`

@@ -21,6 +21,19 @@ describe 'Customers API Record Endpoints' do
     expect(customer['data']['id'].to_i).to eq(id)
   end
 
+  it 'can get a random customer' do
+    customers = create_list(:customer, 10)
+
+    get api_v1_customers_random_path
+
+    customer = JSON.parse(response.body)['data']['attributes']
+
+    expect(response).to be_successful
+    record = Customer.find(customer['id'])
+    expect(customer['first_name']).to eq(record.first_name)
+    expect(customer['last_name']).to eq(record.last_name)
+  end
+
   it 'can find one customer by its attributes' do
     customers = create_list(:customer, 3)
     get api_v1_customers_find_path(id: customers[0].id)

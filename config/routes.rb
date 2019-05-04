@@ -13,10 +13,16 @@ Rails.application.routes.draw do
       # -------------------- #
       namespace :merchants do
         concerns :findable
+        get :random, action: :show, controller: :random
+        get :most_revenue, action: :index, controller: :most_revenues
+        get :revenue, action: :index, controller: :most_revenues
+        get :most_items, action: :index, controller: :most_items
       end
       resources :merchants, only: [:index, :show] do
         scope module: :merchants do
           resources :items, :invoices, :customers_with_pending_invoices, only: [:index]
+          get :revenue, action: :show, controller: :revenue
+          get :favorite_customer, action: :show, controller: :favorite_customer
         end
       end
 
@@ -25,10 +31,12 @@ Rails.application.routes.draw do
       # -------------------- #
       namespace :customers do
         concerns :findable
+        get :random, action: :show, controller: :random
       end
       resources :customers, only: [:index, :show] do
         scope module: :customers do
           resources :invoices, :transactions, only: [:index]
+          get :favorite_merchant, action: :show, controller: :favorite_merchant
         end
       end
 
@@ -37,11 +45,15 @@ Rails.application.routes.draw do
       # -------------------- #
       namespace :items do
         concerns :findable
+        get :random, action: :show, controller: :random
+        get :most_revenue, action: :index, controller: :most_revenues
+        get :most_items, action: :index, controller: :most_items
       end
       resources :items, only: [:index, :show] do
         scope module: :items do
           resources :invoice_items, only: [:index]
           get :merchant, action: :show, controller: :merchants
+          get :best_day, action: :show, controller: :best_day
         end
       end
 
@@ -50,6 +62,7 @@ Rails.application.routes.draw do
       # -------------------- #
       namespace :transactions do
         concerns :findable
+        get :random, action: :show, controller: :random
       end
       resources :transactions, only: [:index, :show] do
         scope module: :transactions do
@@ -62,6 +75,7 @@ Rails.application.routes.draw do
       # -------------------- #
       namespace :invoices do
         concerns :findable
+        get :random, action: :show, controller: :random
       end
       resources :invoices, only: [:index, :show] do
         scope module: :invoices do
@@ -76,6 +90,7 @@ Rails.application.routes.draw do
       # -------------------- #
       namespace :invoice_items do
         concerns :findable
+        get :random, action: :show, controller: :random
       end
       resources :invoice_items, only: [:index, :show] do
         scope module: :invoice_items do

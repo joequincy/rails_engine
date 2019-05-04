@@ -21,6 +21,20 @@ describe 'Items API Record Endpoints' do
     expect(item['data']['id'].to_i).to eq(id)
   end
 
+  it 'can get a random item' do
+    items = create_list(:item, 10)
+
+    get api_v1_items_random_path
+
+    item = JSON.parse(response.body)['data']['attributes']
+
+    expect(response).to be_successful
+    record = Item.find(item['id'])
+    expect(item['name']).to eq(record.name)
+    expect(item['merchant_id']).to eq(record.merchant_id)
+    expect(item['description']).to eq(record.description)
+  end
+
   it 'can find one item by its attributes' do
     items = create_list(:item, 3)
     get api_v1_items_find_path(id: items[0].id)

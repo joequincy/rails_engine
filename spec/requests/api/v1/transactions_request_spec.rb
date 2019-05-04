@@ -21,6 +21,19 @@ describe 'Transactions API Record Endpoints' do
     expect(transaction['data']['id'].to_i).to eq(id)
   end
 
+  it 'can get a random transaction' do
+    transactions = create_list(:transaction, 10)
+
+    get api_v1_transactions_random_path
+
+    transaction = JSON.parse(response.body)['data']['attributes']
+
+    expect(response).to be_successful
+    record = Transaction.find(transaction['id'])
+    expect(transaction['credit_card_number']).to eq(record.credit_card_number)
+    expect(transaction['invoice_id']).to eq(record.invoice_id)
+  end
+
   it 'can find one transaction by its attributes' do
     transactions = create_list(:transaction, 3)
     get api_v1_transactions_find_path(id: transactions[0].id)

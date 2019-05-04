@@ -21,6 +21,18 @@ describe 'Merchants API Record Endpoints' do
     expect(merchant['data']['id'].to_i).to eq(id)
   end
 
+  it 'can get a random merchant' do
+    merchants = create_list(:merchant, 10)
+
+    get api_v1_merchants_random_path
+
+    merchant = JSON.parse(response.body)['data']['attributes']
+
+    expect(response).to be_successful
+    record = Merchant.find(merchant['id'])
+    expect(merchant['name']).to eq(record.name)
+  end
+
   it 'can find one merchant by its attributes' do
     merchants = create_list(:merchant, 3)
     get api_v1_merchants_find_path(id: merchants[0].id)

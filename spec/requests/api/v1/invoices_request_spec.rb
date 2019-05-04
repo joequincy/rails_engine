@@ -21,6 +21,19 @@ describe 'Invoices API Record Endpoints' do
     expect(invoice['data']['id'].to_i).to eq(id)
   end
 
+  it 'can get a random invoice' do
+    invoices = create_list(:invoice, 10)
+
+    get api_v1_invoices_random_path
+
+    invoice = JSON.parse(response.body)['data']['attributes']
+
+    expect(response).to be_successful
+    record = Invoice.find(invoice['id'])
+    expect(invoice['customer_id']).to eq(record.customer_id)
+    expect(invoice['merchant_id']).to eq(record.merchant_id)
+  end
+
   it 'can find one invoice by its attributes' do
     invoices = create_list(:invoice, 3)
     get api_v1_invoices_find_path(id: invoices[0].id)

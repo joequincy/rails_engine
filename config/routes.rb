@@ -41,11 +41,14 @@ Rails.application.routes.draw do
       namespace :items do
         concerns :findable
         get :random, action: :show, controller: :random
+        get :most_revenue, action: :index, controller: :most_revenues
+        get :most_items, action: :index, controller: :most_items
       end
       resources :items, only: [:index, :show] do
         scope module: :items do
           resources :invoice_items, only: [:index]
           get :merchant, action: :show, controller: :merchants
+          get :best_day, action: :show, controller: :best_day
         end
       end
 
